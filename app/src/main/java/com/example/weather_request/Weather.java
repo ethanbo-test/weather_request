@@ -33,7 +33,7 @@ public class Weather {
     return BASE_URL + "?" + this.APP_KEY + "&q=" + this.location;
   }
 
-  protected void sendGet() throws IOException {
+  protected void sendGet(MainActivity activity) throws IOException {
     String url = this.getUrl();
     Request request = new Request.Builder()
         .url(url)
@@ -44,12 +44,14 @@ public class Weather {
       public void onFailure(Call call, IOException e) {
         System.err.println("1111111");
         e.printStackTrace();
-        textView = binding.t1;
+        updateUI(activity);
+        // activity.runOnUiThread();
+        // textView = binding.t1;
       }
 
       @Override
       public void onResponse(Call call, Response response) throws IOException {
-        System.err.println("22222");
+        System.err.println("activity = " + activity);
         try (ResponseBody responseBody = response.body()) {
           if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
           result = responseBody.string();
@@ -58,8 +60,19 @@ public class Weather {
         } catch (Exception e) {
           e.printStackTrace();
         } finally {
-          textView = binding.t1;
+          updateUI(activity);
+          // textView = binding.t1;
         }
+      }
+    });
+  }
+
+  private void updateUI(MainActivity activity) {
+    activity.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        textView = binding.t1;
+        System.out.println("----------------------------------- textView = " + textView);
       }
     });
   }

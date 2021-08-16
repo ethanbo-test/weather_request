@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
 
     try {
       Weather weather = new Weather("San Jose", mTextView, binding);
-      weather.sendGet();
+      weather.sendGet(this);
     } catch (Exception e) {
       e.printStackTrace();
     }
