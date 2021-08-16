@@ -17,8 +17,13 @@ public class MainActivity extends Activity {
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
-    mTextView = binding.text;
-    // System.err.println("Hello Rohan");
-    System.err.println("binding.text = " + binding.text);
+    try {
+      Weather weather = new Weather("San Jose", mTextView, binding);
+      weather.sendGet();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
+
+
 }
